@@ -33,10 +33,16 @@ int main(void) {
 		}
 
 		// 음료 구매
-		else if (menu == 2) {
+		if (menu == 2) {
 			system("cls");
 			cli(coin);
 			buy(beverage, beverage_coin, beverage_buy, coin);
+			menu = 0;
+		}
+
+		// 거스름돈
+		if (menu == 3) {
+			coin = 0;
 			menu = 0;
 		}
 	}
@@ -59,6 +65,8 @@ void cli(int coin) {
 	cout << "|| [1] 돈 추가                            ||" << endl;
 	cout << "||========================================||" << endl;
 	cout << "|| [2] 음료구매                           ||" << endl;
+	cout << "||========================================||" << endl;
+	cout << "|| [3] 거스름돈                           ||" << endl;
 	cout << "============================================" << endl;
 }
 
