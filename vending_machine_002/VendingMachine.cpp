@@ -64,13 +64,20 @@ void VendingMachine::ShowMenu() {
 	cout << "============================================" << endl;
 }
 
-void VendingMachine::Buy() {
+bool VendingMachine::Buy() {
 	char beverage[10] = {};
 	int min = 100000;
+	int buyStatus = 0;
+	int index = 0;
 	for (int i = 0; i < 4; i++) {
 		if (price[i] < min) {
 			min = price[i];
 		}
+	}
+
+	if (coin < min) {
+		cout << "금액이 부족합니다.";
+		return 0;
 	}
 
 	cout << "먹고싶은 음료를 골라주세요";
@@ -79,38 +86,36 @@ void VendingMachine::Buy() {
 		cout << price[i] << endl;
 	}
 	cin >> beverage;
-	cout << beverage;
+	cout << beverage << endl;
+	cout << min;
 	Sleep(1000);
 
-	int i;
-	for (i = 0; i < 4; i++) {
-
-		if (beverage[0] == (49 + i) && coin >= price[i]) {
+	for (int i = 0; i < 4; i++) {
+		if ((beverage[0] == (49 + i) || strcmp(name[i], beverage) == 0) && coin >= price[i]) {
 			printf("%s 를 선택하셨습니다.", name[i]);
 			coin -= price[i];
 			stock[i]--;
+			index = i;
+			buyStatus = 1;
+
+			// 두번째 거스름돈 조건
+			if (coin < min) {
+				cout << "최소금액에 미치지 못하므로 거스름돈을 배출 합니다." << endl;
+				coin = 0;
+			}
+
 			break;
 		}
-
-
 	}
-	/*
-			if (beverage[0] == '1' && coin >= price[0]) {
-				printf("%s 를 선택하셨습니다.", name[0]);
-				coin -= price[0];
-				stock[0]--;
 
-			}
-			else if (beverage[0] == '2' && coin >= price[1]) {
-				printf("%s 를 선택하셨습니다.", name[1]);
-				coin -= price[1];
-				stock[1]--;
+	// 거래 중지 되었으므로 0을 return
+	if (coin < price[index] && buyStatus == 0) {
+		cout << "금액이 부족합니다.";
+		return 0;
+	}
 
-			}
-			else {
-				cout << "금액이 부족합니다.";
-			}
-	*/
+	// 정상 거래를 마쳤으므로 1을 return 해줍니다.
+	return 1;
 }
 
 void VendingMachine::InputMoney() {
@@ -125,6 +130,8 @@ void VendingMachine::InputMoney() {
 		cout << "잘못된 금액을 입력하셨습니다.";
 	}
 }
+
+// 첫번째 수동 거스름돈 
 void VendingMachine::OutputMoney() {
 	coin = 0;
 }
