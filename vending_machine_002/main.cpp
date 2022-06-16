@@ -17,29 +17,35 @@ int main(void) {
 
 	choice(Acid, NonAcid, machine);
 	int menu = 0;
+	int* p = &machine.GetStock();
 
 	while (true) {
 
 		system("cls");
 		machine.ShowMenu();
-		
-		
-		int* p = &machine.GetStock();
-		printf("%p\n", p);
-		printf("%p\n", p+1);
-		printf("%p\n", p+2);
-		printf("%p\n", p+3);
-		
-
-
+		// 거스름돈 강제 반환 마지막 재고 부족
+		if (*(p + 0) == 0 &&
+			*(p + 1) == 0 &&
+			*(p + 2) == 0 &&
+			*(p + 3) == 0) {
+			cout << "<<<<<<<재고가 모두 소진 되었습니다.>>>>>>>" << endl;
+			machine.OutputMoney();
+			Sleep(1000);
+		}
+		cout << "원하시는 메뉴를 입력해 주세요" << endl;
 		cin >> menu;
-
 
 		// 돈 추가
 		if (menu == 1) {
 			system("cls");
 			machine.ShowMenu();
 			machine.InputMoney();
+			if (*(p + 0) == 0 &&
+				*(p + 1) == 0 &&
+				*(p + 2) == 0 &&
+				*(p + 3) == 0) {
+				machine.OutputMoney();
+			}
 			menu = 0;
 		}
 

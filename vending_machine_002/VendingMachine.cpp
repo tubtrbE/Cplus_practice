@@ -34,10 +34,10 @@ VendingMachine::VendingMachine(const char* name1, int price1, const char* name2,
 	price[2] = price3;
 	price[3] = price4;
 
-	stock[0] = 1;
-	stock[1] = 2;
-	stock[2] = 3;
-	stock[3] = 4;
+	stock[0] = 0;
+	stock[1] = 0;
+	stock[2] = 0;
+	stock[3] = 0;
 
 	coin = 0;
 }
