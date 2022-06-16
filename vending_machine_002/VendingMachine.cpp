@@ -42,26 +42,33 @@ VendingMachine::VendingMachine(const char* name1, int price1, const char* name2,
 	coin = 0;
 }
 
+
+int &VendingMachine::GetStock() {
+	return stock[0];
+}
+
+
 void VendingMachine::ShowMenu() {
 
+	// %04d 는 0000 으로 나오고 %4d 는 '   0' 으로 나온다.
 	cout << "         <<음료를 선택해 주세요>>           " << endl;
-	cout << "============================================" << endl;
-	printf("|| 1번 음료  : %10s     가격 : %4d ||\n", name[0], price[0]);
-	cout << "||========================================||" << endl;
-	printf("|| 2번 음료  : %10s     가격 : %4d ||\n", name[1], price[1]);
-	cout << "||========================================||" << endl;
-	printf("|| 3번 음료  : %10s     가격 : %4d ||\n", name[2], price[2]);
-	cout << "||========================================||" << endl;
-	printf("|| 4번 음료  : %10s     가격 : %4d ||\n", name[3], price[3]);
-	cout << "||========================================||" << endl;
-	printf("|| 코인      :    %5d[coin]             ||\n", coin);
-	cout << "||========================================||" << endl;
-	cout << "|| [1] 돈 추가                            ||" << endl;
-	cout << "||========================================||" << endl;
-	cout << "|| [2] 음료구매                           ||" << endl;
-	cout << "||========================================||" << endl;
-	cout << "|| [3] 거스름돈                           ||" << endl;
-	cout << "============================================" << endl;
+	cout << "======================================================" << endl;
+	printf("|| 1번 음료  : %10s    가격 : %4d  재고 : %3d||\n", name[0], price[0], stock[0]);
+	cout << "||==================================================||" << endl;
+	printf("|| 2번 음료  : %10s    가격 : %4d  재고 : %3d||\n", name[1], price[1], stock[1]);
+	cout << "||==================================================||" << endl;
+	printf("|| 3번 음료  : %10s    가격 : %4d  재고 : %3d||\n", name[2], price[2], stock[2]);
+	cout << "||==================================================||" << endl;
+	printf("|| 4번 음료  : %10s    가격 : %4d  재고 : %3d||\n", name[3], price[3], stock[3]);
+	cout << "||==================================================||" << endl;
+	printf("|| 코인      :    %5d[coin]                       ||\n", coin);
+	cout << "||==================================================||" << endl;
+	cout << "|| [1] 돈 추가                                      ||" << endl;
+	cout << "||==================================================||" << endl;
+	cout << "|| [2] 음료구매                                     ||" << endl;
+	cout << "||==================================================||" << endl;
+	cout << "|| [3] 거스름돈                                     ||" << endl;
+	cout << "======================================================" << endl;
 }
 
 bool VendingMachine::Buy() {
@@ -75,15 +82,17 @@ bool VendingMachine::Buy() {
 		}
 	}
 
+	// 최소금액 부족할때 거래 자체 불가
 	if (coin < min) {
-		cout << "금액이 부족합니다.";
+		cout << "최소 금액이 부족합니다.";
 		return 0;
 	}
+
 
 	cout << "먹고싶은 음료를 골라주세요";
 	cout << endl;
 	for (int i = 0; i < 4; i++) {
-		cout << price[i] << endl;
+		cout << price[i] << stock[i] <<endl;
 	}
 	cin >> beverage;
 	cout << beverage << endl;
@@ -93,6 +102,11 @@ bool VendingMachine::Buy() {
 	for (int i = 0; i < 4; i++) {
 		if ((beverage[0] == (49 + i) || strcmp(name[i], beverage) == 0) && coin >= price[i]) {
 			printf("%s 를 선택하셨습니다.", name[i]);
+
+			if (stock[i] == 0) {
+				cout << "판매 재고가 부족하여 구매가 불가능 합니다." << endl;
+				break;
+			}
 			coin -= price[i];
 			stock[i]--;
 			index = i;
