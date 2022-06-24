@@ -2,7 +2,7 @@
 #include "Animal.h"
 #define _CRT_SECURE_NO_WARNINGS
 
-class Dog :public Animal {
+class Dog:public Animal {
 private:
 public:
 	Dog(char* myname) : Animal(myname) {

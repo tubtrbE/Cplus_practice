@@ -22,12 +22,7 @@ public:
 	const char* getName() const {
 		return this->name;
 	}
-	void setName(char* myname) {
-		int len = strlen(myname) + 1;
-		name = new char[len];
-		strcpy(name, myname);
-	}
-
+	void setName(char* myname) {}
 	virtual void VoiceCheckIn() {}
 	virtual void VoiceCheckOut() {}
 };
