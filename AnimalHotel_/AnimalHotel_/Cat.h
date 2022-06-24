@@ -5,15 +5,7 @@
 class Cat:public Animal {
 private:
 public:
-	Cat(char* myname) : Animal(myname) {
-
-	}
-	virtual void VoiceCheckIn() {
-		const char* myname = getName();
-		cout << myname << " : 냥냥 잘놀다와~" << endl;
-	}
-	virtual void VoiceCheckOut() {
-		const char* myname = getName();
-		cout << myname << " : 냥냥 잘지내다 가요 ~ " << endl;
-	}
+	Cat(char* myname);
+	virtual void VoiceCheckIn();
+	virtual void VoiceCheckOut();
 };

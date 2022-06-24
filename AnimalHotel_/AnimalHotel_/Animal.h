@@ -11,19 +11,11 @@ private:
 
 public:
 
-	Animal(char* myname) {
-		int len = strlen(myname) + 1;
-		name = new char[len];
-		strcpy(name, myname);
-	}
-	~Animal() {
-		delete[] name;
-	}
-	const char* getName() const {
-		return this->name;
-	}
-	void setName(char* myname) {}
-	virtual void VoiceCheckIn() {}
-	virtual void VoiceCheckOut() {}
+	Animal(char* myname);
+	virtual ~Animal();
+	const char* getName() const;
+	void setName(char* myname);
+	virtual void VoiceCheckIn();
+	virtual void VoiceCheckOut();
 };
 
