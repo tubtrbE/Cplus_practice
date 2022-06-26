@@ -19,5 +19,13 @@ void Car::SetName(char* mynameOwner) {
 	nameOwner = mynameOwner;
 }
 
+int Car::getNum() {
+	return num;
+}
+
+void Car::setNum(int myNum) {
+	num = myNum;
+}
+
 void Car::CarIn() {}
 void Car::CarOut() {}
