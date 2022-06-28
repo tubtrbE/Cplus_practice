@@ -1,37 +1,32 @@
 #include "Statistics.h"
 
-Statistics::Statistics() {
-
-	citys = new Citys* [230];
-	for (int i = 0; i < 230; i++) {
-		citys[i] = 0;
-	}
+Statistics::Statistics() : fileFlag(false) {
 
 }
 
 Statistics::~Statistics() {
-
 }
 
 void Statistics::InputCity(Citys* city) {
-
-	for (int i = 0; i < 230; i++) {
-		if (citys[i] == 0) {
-			citys[i] = city;
-			break;
-		}
-	}
-
+	vCity.push_back(city);
 }
 
 void Statistics::ShowCity() {
-	for (int i = 0; i < 230; i++) {
-		
-		cout << "도시명 : " << citys[i]->GetCity();
-		cout << "  지역명 : " << citys[i]->GetDistrict() << "  사망숫자 : ";
-		
+
+/*
+	// int 배열을 string 으로 다시 변환 해주기
+	for (int j = 0; j < 11; j++) {
+		deathNum += to_string(vCity.at(i)->GetDeath()[j]) + ",";
+	}
+*/
+
+
+
+	for (int i = 0; i < vCity.size(); i++) {
+		cout << vCity.at(i)->GetCity() << "  ";
+		cout << vCity.at(i)->GetDistrict() << "  ";
 		for (int j = 0; j < 11; j++) {
-			cout << citys[i]->GetDeath()[j] << " ";
+			cout << vCity.at(i)->GetDeath()[j];
 		}
 		cout << endl;
 	}
@@ -48,51 +43,48 @@ void Statistics::Search() {
 	cout << "||==================================================||" << endl;
 	cout << "|| [3] 도시명 지역명 사망장소로 검색하기            ||" << endl;
 	cout << "||==================================================||" << endl;
+
 	cin >> num;
-
-
 	string city = "";
 	string district = "";
 	string place = "";
+	string deathNum = "";
 
 	// 도시명 만으로 검색하기
 	if (num == 1) {
 		cout << "<<<<도시명 만으로 검색하기>>>>" << endl;
 		cout << "도시명을 입력하세요 : "; cin >> city;
+		for (int i = 0; i < vCity.size(); i++) {
+			if (vCity.at(i)->GetCity() == city) {
 
-		for (int i = 0; i < 230; i++) {
-			if (citys[i] != 0) {
-				if (citys[i]->GetCity() == city) {
-					cout << "도시명 : " << citys[i]->GetCity();
-					cout << "  지역명 : " << citys[i]->GetDistrict() << "  사망숫자 : ";
-					for (int j = 0; j < 11; j++) {
-						cout << citys[i]->GetDeath()[j] << " ";
-					}
-					cout << endl;
+
+				cout << vCity.at(i)->GetCity() << "  ";
+				cout << vCity.at(i)->GetDistrict() << "  ";
+				for (int j = 0; j < 11; j++) {
+					cout << vCity.at(i)->GetDeath()[j];
 				}
+				cout << endl;
 			}
 		}
 	}
 	// 도시명 지역명 으로 검색하기
 	else if (num == 2) {
 		cout << "<<<<도시명 지역명 으로 검색하기>>>>" << endl;
-		cout << "도시명을 입력하세요 : " ; cin >> city;
+		cout << "도시명을 입력하세요 : "; cin >> city;
 		cout << "지역명을 입력하세요 : "; cin >> district;
 
-		for (int i = 0; i < 230; i++) {
-			if (citys[i] != 0) {
-				if (citys[i]->GetCity() == city &&
-					citys[i]->GetDistrict() == district) {
-					cout << "도시명 : " << citys[i]->GetCity();
-					cout << "  지역명 : " << citys[i]->GetDistrict() << "  사망숫자 : ";
-					for (int j = 0; j < 11; j++) {
-						cout << citys[i]->GetDeath()[j] << " ";
-					}
-					cout << endl;
+		for (int i = 0; i < vCity.size(); i++) {
+			if (vCity.at(i)->GetCity() == city &&
+				vCity.at(i)->GetDistrict() == district) {
+
+				cout << vCity.at(i)->GetCity() << "  ";
+				cout << vCity.at(i)->GetDistrict() << "  ";
+				for (int j = 0; j < 11; j++) {
+					cout << vCity.at(i)->GetDeath()[j];
 				}
+				cout << endl;
 			}
 		}
-
 	}
 	// 도시명 지역명 사망위치으로 검색하기
 	else if (num == 3) {
@@ -101,18 +93,16 @@ void Statistics::Search() {
 		cout << "지역명을 입력하세요 : "; cin >> district;
 		cout << "사망지역을 입력하세요 : "; cin >> place;
 
-		int placeNum = Place(place);
+		int placeNum = PlaceInt(place);
 
 		if (placeNum < 11) {
-			for (int i = 0; i < 230; i++) {
-				if (citys[i] != 0) {
-					if (citys[i]->GetCity() == city &&
-						citys[i]->GetDistrict() == district) {
-						cout << "도시명 : " << citys[i]->GetCity();
-						cout << "  지역명 : " << citys[i]->GetDistrict() << "  사망지역 : ";
-						cout << place << "  사망명수 : " << citys[i]->GetDeath()[placeNum] << " ";
-						cout << endl;
-					}
+			for (int i = 0; i < vCity.size(); i++) {
+				if (vCity.at(i)->GetCity() == city &&
+					vCity.at(i)->GetDistrict() == district) {
+					cout << "도시명 : " << vCity.at(i)->GetCity();
+					cout << "  지역명 : " << vCity.at(i)->GetDistrict() << "  사망지역 =>";
+					cout << place << "  사망명수 : " << vCity.at(i)->GetDeath()[placeNum] << " ";
+					cout << endl;
 				}
 			}
 		}
@@ -121,13 +111,16 @@ void Statistics::Search() {
 		}
 	}
 	else {
-		cout << "잘못된 입력입니다." << endl;
+		num = 0;
+		cin.clear();
+		cin.ignore(1000, '\n');
 	}
+
 }
 
 void Statistics::Sum() {
 	int num = 0;
-	cout << "           <<<통계방식을 선택해 주세요>>>"              << endl;
+	cout << "           <<<통계방식을 선택해 주세요>>>" << endl;
 	cout << "||==================================================||" << endl;
 	cout << "|| [1] 도시명 사망장소 통계                         ||" << endl;
 	cout << "||==================================================||" << endl;
@@ -140,60 +133,137 @@ void Statistics::Sum() {
 	string city = "";
 	string district = "";
 	string place = "";
-	int sum = 0;
+	int sum[11] = {};
+
 
 	// 도시명 사망장소
 	if (num == 1) {
 		cout << "도시명을 입력하세요 : "; cin >> city;
 		cout << "사망장소를 입력하세요 : "; cin >> place;
-		
-		for (int i = 0; i < 230; i++) {
-			int placeNum = Place(place);
-			
-			if (citys[i] != 0) {
-				if (citys[i]->GetCity() == city) {
-					sum += citys[i]->GetDeath()[placeNum];
+		int placeNum = PlaceInt(place);
+
+		if (placeNum < 11) {
+			for (int i = 0; i < vCity.size(); i++) {
+				if (vCity.at(i)->GetCity() == city) {
+					sum[0] += vCity.at(i)->GetDeath()[placeNum];
 				}
 			}
+			cout << "도시명 : " << city << endl;
+			cout << "장소명 : " << place << endl;
+			cout << "사망자 수 : " << sum[0] << " [명]" << endl;
 		}
-		cout << "총합" << sum << endl;
+		else {
+			cout << "잘못된 입력입니다." << endl;
+		}
 	}
 	// 전체 사망장소
 	else if (num == 2) {
 		cout << "사망장소를 입력하세요 : "; cin >> place;
-
-		for (int i = 0; i < 230; i++) {
-			int placeNum = Place(place);
-
-			if (citys[i] != 0) {
-				sum += citys[i]->GetDeath()[placeNum];
+		int placeNum = PlaceInt(place);
+		if (placeNum < 11) {
+			for (int i = 0; i < vCity.size(); i++) {
+				sum[0] += vCity.at(i)->GetDeath()[placeNum];
 			}
+			cout << "장소명 : " << place << endl;
+			cout << "사망자 수 : " << sum[0] << " [명]" << endl;
 		}
-		cout << "총합 : " << sum << endl;
+		else {
+			cout << "잘못된 입력입니다." << endl;
+		}
 	}
 	// 전체 각 사망장소
 	else if (num == 3) {
-		int sums[12] = {};
-
-		for (int i = 0; i < 230; i++) {
+		for (int i = 0; i < vCity.size(); i++) {
 			for (int j = 0; j < 11; j++) {
-				if (citys[i] != 0) {
-					sums[j] += citys[i]->GetDeath()[j];
-				}
+				sum[j] += vCity.at(i)->GetDeath()[j];
 			}
 		}
-		for (int j = 0; j < 11; j++) {
-			cout << "총합 : " << sums[j] << endl;
-		}
-
+		cout << "터널안 : " << sum[0] << endl;
+		cout << "교량위 : " << sum[1] << endl;
+		cout << "고가도로위 : " << sum[2] << endl;
+		cout << "하차도(도로) : " << sum[3] << endl;
+		cout << "기타단일로 : " << sum[4] << endl;
+		cout << "교차로내 : " << sum[5] << endl;
+		cout << "차로횡단보도 : " << sum[6] << endl;
+		cout << "교차로부근 : " << sum[7] << endl;
+		cout << "철길건널목 : " << sum[8] << endl;
+		cout << "기타 : " << sum[9] << endl;
+		cout << "불명 : " << sum[10] << endl;
 	}
 	else {
-		cout << "잘못된 입력입니다."<< endl;
+		cout << "잘못된 입력입니다." << endl;
+		cin.clear();
+		cin.ignore(1000, '\n');
 	}
 }
 
+void Statistics::MakeFile() {
+	fileFlag = true;
+	int menu;
 
-int Statistics::Place(string place) {
+	string fileName;
+	cout << "파일명을 입력해 주세요" << endl;
+	cin >> fileName;
+
+	cout << "파일로 만들고 싶은 정보 입력해 주세요" << endl;
+	cout << "1.검색" << endl;
+	cin >> menu;
+
+	if (menu == 1) {
+		Search();
+		system("pause");
+	}
+
+
+
+
+	//out file stream 파일을 바깥으로 내보낸다. 
+	ofstream myfile;
+	myfile.open(fileName + ".csv");
+	myfile << "1,2,3.456\n";
+	myfile.close();
+
+
+}
+
+string Statistics::PlaceString(int place) {
+	if (place == 0) {
+		return "터널안";
+	}
+	else if (place == 1) {
+		return "교량위";
+	}
+	else if (place == 2) {
+		return "고가도로위";
+	}
+	else if (place == 3) {
+		return "하차도(도로)";
+	}
+	else if (place == 4) {
+		return "기타단일로";
+	}
+	else if (place == 5) {
+		return "차로횡단보도";
+	}
+	else if (place == 6) {
+		return "교차로부근";
+	}
+	else if (place == 7) {
+		return "철길건널목";
+	}
+	else if (place == 8) {
+		return "기타";
+	}
+	else if (place == 9) {
+		return "불명";
+	}
+	else {
+		return "잘못입력 하셨습니다.";
+	}
+
+}
+
+int Statistics::PlaceInt(string place) {
 
 	if (place == "터널안") {
 		return 0;

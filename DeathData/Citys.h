@@ -3,6 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <vector>
+
 
 using namespace std;
 
@@ -12,7 +14,7 @@ private:
 
 	string city;
 	string district;
-	int death[12];
+	int death[11];
 
 public:
 

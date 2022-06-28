@@ -2,19 +2,23 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "Statistics.h"
 
-void CheckMenu();
 using namespace std;
 
 int main()
 {
+
 	Statistics status;
 	int row = 0;
 
 	//input file stream 파일을 읽는다.
 	ifstream  data("ANSIData.csv");
 	string line;
+
+	vector<Citys*> v;
+
 	while (std::getline(data, line))
 	{
 		string city = {};
@@ -39,13 +43,14 @@ int main()
 				district = cell;
 			}
 			else {
-				num[column-2] = stoi(cell);
+				num[column - 2] = stoi(cell);
 			}
 
 			column++;
 			if (column == 12) {
 				Citys* temp = new Citys(city, district, num);
 				status.InputCity(temp);
+				v.push_back(temp);
 				row++;
 				for (int i = 0; i < 13; i++) {
 					num[i] = 0;
@@ -53,8 +58,7 @@ int main()
 			}
 		}
 	}
-	int menu = 0;
-
+	int menu;
 	while (1)
 	{
 		system("cls");
@@ -67,25 +71,26 @@ int main()
 
 		if (menu == 1) {
 			status.Search();
-			CheckMenu();
+			system("pause");
 		}
 		else if (menu == 2) {
 			status.ShowCity();
-			CheckMenu();
+			system("pause");
 		}
 		else if (menu == 3) {
 			status.Sum();
-			CheckMenu();
+			system("pause");
+		}
+		else if (menu == 4) {
+			status.MakeFile();
+			system("pause");
 		}
 		else {
 			cout << "잘못된 입력입니다." << endl;
+			menu = 0;
+			cin.clear();
+			cin.ignore(1000, '\n');
 		}
 	}
 	return 0;
-}
-
-void CheckMenu() {
-	char temp[5] = {};
-	cout << "###메뉴로 돌아려면 문자(영어) 나 숫자 입력하세요###" << endl;
-	cin >> temp;
 }

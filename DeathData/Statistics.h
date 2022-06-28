@@ -1,9 +1,12 @@
 #pragma once
+#include <vector>
 #include "Citys.h"
 class Statistics
 {
 private:
-	Citys** citys;
+	vector<Citys*> vCity;
+	vector<string> vFile;
+	bool fileFlag;
 
 public:
 	Statistics();
@@ -12,7 +15,10 @@ public:
 	void ShowCity();
 	void Search();
 	void Sum();
+	void MakeFile();
 
-	int Place(string place);
+
+	string PlaceString(int place);
+	int PlaceInt(string place);
 };
 
