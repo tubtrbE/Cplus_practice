@@ -66,6 +66,7 @@ int main()
 		cout << "1.검색" << endl;
 		cout << "2.모든정보 보기" << endl;
 		cout << "3.합" << endl;
+		cout << "4.파일출력" << endl;
 
 		cin >> menu;
 

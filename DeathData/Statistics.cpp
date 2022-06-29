@@ -13,23 +13,32 @@ void Statistics::InputCity(Citys* city) {
 
 void Statistics::ShowCity() {
 
-/*
-	// int 배열을 string 으로 다시 변환 해주기
-	for (int j = 0; j < 11; j++) {
-		deathNum += to_string(vCity.at(i)->GetDeath()[j]) + ",";
-	}
-*/
 
+	string deathNum = "";
 
-
-	for (int i = 0; i < vCity.size(); i++) {
-		cout << vCity.at(i)->GetCity() << "  ";
-		cout << vCity.at(i)->GetDistrict() << "  ";
-		for (int j = 0; j < 11; j++) {
-			cout << vCity.at(i)->GetDeath()[j];
+	if (fileFlag == 1) {
+		// int 배열을 string 으로 다시 변환 해주기
+		for (int i = 0; i < vCity.size(); i++) {
+			for (int j = 0; j < 11; j++) {
+				deathNum += to_string(vCity.at(i)->GetDeath()[j]) + ",";
+			}
+			vFile.push_back(vCity.at(i)->GetCity() + "," + vCity.at(i)->GetDistrict() + "," + deathNum);
+			deathNum = "";
 		}
-		cout << endl;
 	}
+	else {
+		for (int i = 0; i < vCity.size(); i++) {
+			cout << vCity.at(i)->GetCity() << "  ";
+			cout << vCity.at(i)->GetDistrict() << "  ";
+			for (int j = 0; j < 11; j++) {
+				cout << vCity.at(i)->GetDeath()[j];
+			}
+			cout << endl;
+		}
+	}
+
+
+
 }
 
 void Statistics::Search() {
@@ -48,7 +57,6 @@ void Statistics::Search() {
 	string city = "";
 	string district = "";
 	string place = "";
-	string deathNum = "";
 
 	// 도시명 만으로 검색하기
 	if (num == 1) {
@@ -56,8 +64,6 @@ void Statistics::Search() {
 		cout << "도시명을 입력하세요 : "; cin >> city;
 		for (int i = 0; i < vCity.size(); i++) {
 			if (vCity.at(i)->GetCity() == city) {
-
-
 				cout << vCity.at(i)->GetCity() << "  ";
 				cout << vCity.at(i)->GetDistrict() << "  ";
 				for (int j = 0; j < 11; j++) {
@@ -205,25 +211,17 @@ void Statistics::MakeFile() {
 	cout << "파일명을 입력해 주세요" << endl;
 	cin >> fileName;
 
-	cout << "파일로 만들고 싶은 정보 입력해 주세요" << endl;
-	cout << "1.검색" << endl;
-	cin >> menu;
-
-	if (menu == 1) {
-		Search();
-		system("pause");
-	}
-
-
-
-
 	//out file stream 파일을 바깥으로 내보낸다. 
 	ofstream myfile;
 	myfile.open(fileName + ".csv");
-	myfile << "1,2,3.456\n";
+	ShowCity();
+	for (int i = 0; i < vFile.size(); i++) {
+		myfile << vFile.at(i) + "\n";
+	}
+
 	myfile.close();
-
-
+	vFile.clear();
+	fileFlag = false;
 }
 
 string Statistics::PlaceString(int place) {
