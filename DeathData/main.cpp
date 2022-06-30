@@ -86,6 +86,9 @@ int main()
 			status.MakeFile();
 			system("pause");
 		}
+		// 기존에는 따로 check 함수를 만들어서 메뉴를 제어 했는데
+		// cin.clear()과 
+		// cin.ignore()을 활용하여 다른 키가 발생할 때에도 제어할 수 있게되었다.
 		else {
 			cout << "잘못된 입력입니다." << endl;
 			menu = 0;

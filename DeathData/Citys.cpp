@@ -9,7 +9,6 @@ Citys::Citys(string myCity, string myDistrict, int myData[]) {
 	}
 }
 Citys::~Citys() {
-
 }
 
 string Citys::GetCity() const {

@@ -5,6 +5,8 @@ Statistics::Statistics() : fileFlag(false) {
 }
 
 Statistics::~Statistics() {
+	vCity.clear();
+	vFile.clear();
 }
 
 void Statistics::InputCity(Citys* city) {
@@ -220,6 +222,7 @@ void Statistics::MakeFile() {
 	}
 
 	myfile.close();
+	// 파일로써 출력하고 난다음에는 쓸모 없으므로 할당을 제거해준다.
 	vFile.clear();
 	fileFlag = false;
 }
