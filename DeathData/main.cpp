@@ -6,7 +6,7 @@
 #include "Statistics.h"
 
 using namespace std;
-
+//Ä¿¹Ô¿ë 
 int main()
 {
 
